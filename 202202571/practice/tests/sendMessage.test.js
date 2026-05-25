@@ -15,8 +15,8 @@ test("toHaveBeenCalled: 함수가 호출됐는지 확인", ()=>{
         send: jest.fn()
     };
 
-    sendMessage(mockApi, "wrong");
-
+    //sendMessage(mockApi, "wrong");
+    sendMessage(mockApi, "hello");
     expect(mockApi.send).toHaveBeenCalled();
 });
 
