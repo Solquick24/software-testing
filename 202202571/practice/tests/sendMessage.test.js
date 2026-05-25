@@ -24,9 +24,9 @@ test("toHaveBeenCalledWith: 올바른 값으로 호출됐는지 확인", () => {
     const mockApi = {
         send: jest.fn()
     };
-
-    sendMessage(mockApi, "wrong");
-
+    
+    // sendMessage(mockApi, "wrong");
+    sendMessage(mockApi, "hello");
     expect(mockApi.send).toHaveBeenCalledWith("hello");
 });
 
