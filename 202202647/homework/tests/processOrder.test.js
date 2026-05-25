@@ -1,0 +1,47 @@
+const processOrder = require("../src/processOrder");
+
+describe("processOrder", () => {
+    test("order가 없으면 에러 발생", () => {
+        const mockApi = {};
+        expect(() => processOrder(mockApi, null)).toThrow("invalid order");
+    });
+
+    test("price가 숫자가 아니면 에러 발생", () => {
+        const mockApi = {};
+        expect(() => processOrder(mockApi, { price: "백원", userId: 100 })).toThrow("invalid order");
+    });
+
+    test("price >= 50000이면 할인 알림 호출", () => {
+        const mockApi = {
+            sendDiscountNotification: jest.fn(),
+            sendBasicNotification: jest.fn(),
+        };
+        processOrder(mockApi, { price: 50000, userId: 200 });
+
+        expect(mockApi.sendDiscountNotification).toHaveBeenCalled();
+        expect(mockApi.sendDiscountNotification).toHaveBeenCalledWith(200);
+        expect(mockApi.sendBasicNotification).not.toHaveBeenCalled();
+    });
+
+    test("price < 50000이면 기본 알림 호출", () => {
+        const mockApi = {
+            sendDiscountNotification: jest.fn(),
+            sendBasicNotification: jest.fn(),
+        };
+        processOrder(mockApi, { price: 49999, userId: 300 });
+
+        expect(mockApi.sendBasicNotification).toHaveBeenCalled();
+        expect(mockApi.sendBasicNotification).toHaveBeenCalledWith(300);
+        expect(mockApi.sendDiscountNotification).not.toHaveBeenCalled();
+    });
+
+    test("price를 반환한다", () => {
+        const mockApi = {
+            sendDiscountNotification: jest.fn(),
+            sendBasicNotification: jest.fn(),
+        };
+        const result = processOrder(mockApi, { price: 10000, userId: 400 });
+
+        expect(result).toBe(10000);
+    });
+});
