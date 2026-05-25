@@ -19,7 +19,7 @@ describe("processOrder", () => {
         processOrder(mockApi, { price: 50000, userId: 200 });
 
         expect(mockApi.sendDiscountNotification).toHaveBeenCalled();
-        expect(mockApi.sendDiscountNotification).toHaveBeenCalledWith(1);
+        expect(mockApi.sendDiscountNotification).toHaveBeenCalledWith(200);
         expect(mockApi.sendBasicNotification).not.toHaveBeenCalled();
     });
 
@@ -31,7 +31,7 @@ describe("processOrder", () => {
         processOrder(mockApi, { price: 49999, userId: 300 });
 
         expect(mockApi.sendBasicNotification).toHaveBeenCalled();
-        expect(mockApi.sendBasicNotification).toHaveBeenCalledWith(2);
+        expect(mockApi.sendBasicNotification).toHaveBeenCalledWith(300);
         expect(mockApi.sendDiscountNotification).not.toHaveBeenCalled();
     });
 
